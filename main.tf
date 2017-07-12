@@ -25,7 +25,7 @@ resource "aws_iam_policy_attachment" "spotfleet_role" {
 
 data "aws_ami" "amazon_linux" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["099720109477"]
 
   filter {
     name   = "architecture"
@@ -39,7 +39,7 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-hvm-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
   }
 
   filter {
@@ -92,6 +92,7 @@ resource "aws_spot_fleet_request" "fleet" {
   allocation_strategy = "lowestPrice"
   target_capacity     = 1
   valid_until         = "2018-01-01T00:00:00Z"
+  terminate_instances_with_expiration = true
 
   launch_specification {
     instance_type               = "${var.instance_types["${var.instance_type}"]}"
