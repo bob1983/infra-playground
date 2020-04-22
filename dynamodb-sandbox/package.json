@@ -1,0 +1,13 @@
+{
+  "name": "dynamodb-sandbox",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "bobStrange <bob.is.strange.1983@gmail.com> (https://github.com/bob1983)",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.660.0"
+  }
+}
