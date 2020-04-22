@@ -14,3 +14,20 @@ dynamodb.listTables().promise().then(data => {
 }).catch(error => {
   console.error(error)
 })
+
+const documentClient = new AWS.DynamoDB.DocumentClient()
+
+/* Write item */
+documentClient.put({
+  TableName: 'users',
+  Item: {
+    user_id: 'dajfkdyieua11',
+    timestamp: 1,
+    title: 'Sample',
+    content: 'Sample content'
+  }
+}).promise().then(data => {
+  console.log(data)
+}).catch(error => {
+  console.error(error)
+})
