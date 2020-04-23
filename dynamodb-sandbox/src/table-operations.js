@@ -52,3 +52,38 @@ documentClient.update({
   console.error('Update error: ', error)
 })
 
+/* Batch operation */
+
+documentClient
+  .batchWrite({
+    RequestItems: {
+      user_posts: [
+        {
+          PutRequest: {
+            Item: {
+              user_id: "foo1",
+              timestamp: 100,
+              title: "Foo title",
+              content: "Foo content",
+            },
+          },
+          PutRequest: {
+            Item: {
+              user_id: "bar",
+              timestamp: 101,
+              title: "Bar title",
+              content: "Bar content",
+            },
+          },
+        },
+      ],
+    },
+  })
+  .promise()
+  .then((data) => {
+    console.log("BatchUpdate: ", data);
+  })
+  .catch((error) => {
+    console.error("BatchUpdate error: ", error);
+  });
+
