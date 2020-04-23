@@ -19,7 +19,7 @@ const documentClient = new AWS.DynamoDB.DocumentClient()
 
 /* Write item */
 documentClient.put({
-  TableName: 'users',
+  TableName: 'user_posts',
   Item: {
     user_id: 'dajfkdyieua11',
     timestamp: 1,
