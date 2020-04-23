@@ -141,55 +141,71 @@ const documentClient = new AWS.DynamoDB.DocumentClient()
 
 // Read operations
 
-documentClient.get({
-  TableName: 'user_posts',
-  Key: {
-    user_id: 'foo1',
-    timestamp: 100
-  }
-})
-  .promise()
-  .then(data => {
-    console.log('get result: ', data)
-    // Dataの構造
-    // {
-    //   Item: {
-    //     content: 'Foo content',
-    //     user_id: 'foo1',
-    //     title: 'Foo title',
-    //     timestamp: 100
-    //   }
-    // }
-  })
-  .catch(error => {
-    console.error('get error: ', error)
-  })
+// documentClient.get({
+//   TableName: 'user_posts',
+//   Key: {
+//     user_id: 'foo1',
+//     timestamp: 100
+//   }
+// })
+//   .promise()
+//   .then(data => {
+//     console.log('get result: ', data)
+//     // Dataの構造
+//     // {
+//     //   Item: {
+//     //     content: 'Foo content',
+//     //     user_id: 'foo1',
+//     //     title: 'Foo title',
+//     //     timestamp: 100
+//     //   }
+//     // }
+//   })
+//   .catch(error => {
+//     console.error('get error: ', error)
+//   })
 
-documentClient.query({
+// documentClient.query({
+//   TableName: 'user_posts',
+//   KeyConditionExpression: 'user_id = :uid',
+//   ExpressionAttributeValues: {
+//     ':uid': 'foo1'
+//   }
+// })
+//   .promise()
+//   .then(data => {
+//     console.log('query result: ', data)
+
+//     // Dataの構造 Items: [], Count: 件数, ScannedCount: RCUを使用した数？
+//     // {
+//     //   Items: [
+//     //   {
+//     //     content: 'Foo content',
+//     //     user_id: 'foo1',
+//     //     title: 'Foo title',
+//     //     timestamp: 100
+//     //   }
+//     // ],
+//     //   Count: 1,
+//     //   ScannedCount: 1
+//     // }
+//   })
+//   .catch(error => {
+//     console.error('query error: ', error)
+//   })
+
+/* scan operation */
+documentClient.scan({
   TableName: 'user_posts',
-  KeyConditionExpression: 'user_id = :uid',
+  FilterExpression: 'cat = :cat',
   ExpressionAttributeValues: {
-    ':uid': 'foo1'
+    ':cat': 'general'
   }
 })
   .promise()
   .then(data => {
-    console.log('query result: ', data)
-
-    // Dataの構造 Items: [], Count: 件数, ScannedCount: RCUを使用した数？
-    // {
-    //   Items: [
-    //   {
-    //     content: 'Foo content',
-    //     user_id: 'foo1',
-    //     title: 'Foo title',
-    //     timestamp: 100
-    //   }
-    // ],
-    //   Count: 1,
-    //   ScannedCount: 1
-    // }
+    console.log('scan result: ', data)
   })
   .catch(error => {
-    console.error('query error: ', error)
+    console.error('scan error: ', error)
   })
