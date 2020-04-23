@@ -22,6 +22,11 @@ resource "aws_dynamodb_table" "example" {
   }
 
   attribute {
+      name = "title"
+      type = "S"
+  }
+
+  attribute {
     name = "cat"
     type = "S"
   }
@@ -31,12 +36,18 @@ resource "aws_dynamodb_table" "example" {
     type = "S"
   }
 
-  global_secondary_index {
-    name            = "cat-index"
-    hash_key        = "cat"
-    write_capacity  = 1
-    read_capacity   = 1
+  local_secondary_index {
+    name = "user_id-title-index"
+    range_key  = "title"
     projection_type = "ALL"
+    non_key_attributes = []
+  }
+
+  local_secondary_index {
+      name = "user_id-cat-index"
+      range_key = "cat"
+      projection_type = "ALL"
+      non_key_attributes = []
   }
 
   global_secondary_index {
