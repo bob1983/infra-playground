@@ -195,17 +195,39 @@ const documentClient = new AWS.DynamoDB.DocumentClient()
 //   })
 
 /* scan operation */
+// documentClient.scan({
+//   TableName: 'user_posts',
+//   FilterExpression: 'cat = :cat',
+//   ExpressionAttributeValues: {
+//     ':cat': 'general'
+//   }
+// })
+//   .promise()
+//   .then(data => {
+//     console.log('scan result: ', data)
+//   })
+//   .catch(error => {
+//     console.error('scan error: ', error)
+//   })
+
+/* paginate */
+
 documentClient.scan({
   TableName: 'user_posts',
-  FilterExpression: 'cat = :cat',
-  ExpressionAttributeValues: {
-    ':cat': 'general'
-  }
+  Limit: 3
 })
   .promise()
   .then(data => {
-    console.log('scan result: ', data)
+    console.log('paginated scan', data)
+    // Dataの構造
+    // LastEvaluatedKeyを次のリクエストに使用する
+    // {
+    //   Items: [...],
+    //   Count: 3,
+    //   ScannedCount: 3,
+    //   LastEvaluatedKey: { user_id: 'bar', timestamp: 101 }
+    // }
   })
   .catch(error => {
-    console.error('scan error: ', error)
+    console.error('paginated scan error: ', error)
   })
