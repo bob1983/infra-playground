@@ -138,3 +138,58 @@ const documentClient = new AWS.DynamoDB.DocumentClient()
 //     // 失敗時には例外がThrowされる
 //     console.error("Conditional write error: ", error);
 //   });
+
+// Read operations
+
+documentClient.get({
+  TableName: 'user_posts',
+  Key: {
+    user_id: 'foo1',
+    timestamp: 100
+  }
+})
+  .promise()
+  .then(data => {
+    console.log('get result: ', data)
+    // Dataの構造
+    // {
+    //   Item: {
+    //     content: 'Foo content',
+    //     user_id: 'foo1',
+    //     title: 'Foo title',
+    //     timestamp: 100
+    //   }
+    // }
+  })
+  .catch(error => {
+    console.error('get error: ', error)
+  })
+
+documentClient.query({
+  TableName: 'user_posts',
+  KeyConditionExpression: 'user_id = :uid',
+  ExpressionAttributeValues: {
+    ':uid': 'foo1'
+  }
+})
+  .promise()
+  .then(data => {
+    console.log('query result: ', data)
+
+    // Dataの構造 Items: [], Count: 件数, ScannedCount: RCUを使用した数？
+    // {
+    //   Items: [
+    //   {
+    //     content: 'Foo content',
+    //     user_id: 'foo1',
+    //     title: 'Foo title',
+    //     timestamp: 100
+    //   }
+    // ],
+    //   Count: 1,
+    //   ScannedCount: 1
+    // }
+  })
+  .catch(error => {
+    console.error('query error: ', error)
+  })
