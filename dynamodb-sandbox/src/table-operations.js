@@ -10,7 +10,7 @@ dynamodb.listTables().promise().then(data => {
   })
   return Promise.all(detailOps)
 }).then(tableDetails => {
-  console.log(tableDetails)
+  console.log('TableDetails: ', tableDetails)
 }).catch(error => {
   console.error(error)
 })
@@ -18,16 +18,37 @@ dynamodb.listTables().promise().then(data => {
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
 /* Write item */
-documentClient.put({
+// documentClient.put({
+//   TableName: 'user_posts',
+//   Item: {
+//     user_id: 'dajfkdyieua11',
+//     timestamp: 1,
+//     title: 'Sample',
+//     content: 'Sample content'
+//   }
+// }).promise().then(data => {
+//   console.log('Put: ', data)
+// }).catch(error => {
+//   console.error('Put error: ', error)
+// })
+
+/* Update item */
+documentClient.update({
   TableName: 'user_posts',
-  Item: {
+  Key: {
     user_id: 'dajfkdyieua11',
-    timestamp: 1,
-    title: 'Sample',
-    content: 'Sample content'
+    timestamp: 1
+  },
+  UpdateExpression: 'set #t = :t',
+  ExpressionAttributeNames: {
+    '#t': 'title'
+  },
+  ExpressionAttributeValues: {
+    ':t': 'Updated title'
   }
 }).promise().then(data => {
-  console.log(data)
+  console.log('Update: ', data)
 }).catch(error => {
-  console.error(error)
+  console.error('Update error: ', error)
 })
+
