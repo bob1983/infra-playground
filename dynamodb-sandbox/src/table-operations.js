@@ -254,9 +254,13 @@ async function fetch() {
     TableName: 'user_posts',
     Limit: 3
   }
+  let items = []
   for await (const result of scanItems(documentClient, params)) {
-    console.log('Items: ', result.Items)
+    items.push(...result.Items)
   }
+  return items
 }
 
-fetch().then(() => console.log('Done'))
+fetch().then(data => {
+  console.log(data)
+})
