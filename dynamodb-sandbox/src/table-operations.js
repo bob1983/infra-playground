@@ -212,22 +212,51 @@ const documentClient = new AWS.DynamoDB.DocumentClient()
 
 /* paginate */
 
-documentClient.scan({
-  TableName: 'user_posts',
-  Limit: 3
-})
-  .promise()
-  .then(data => {
-    console.log('paginated scan', data)
-    // Dataの構造
-    // LastEvaluatedKeyを次のリクエストに使用する
-    // {
-    //   Items: [...],
-    //   Count: 3,
-    //   ScannedCount: 3,
-    //   LastEvaluatedKey: { user_id: 'bar', timestamp: 101 }
-    // }
-  })
-  .catch(error => {
-    console.error('paginated scan error: ', error)
-  })
+// documentClient.scan({
+//   TableName: 'user_posts',
+//   Limit: 3
+// })
+//   .promise()
+//   .then(data => {
+//     console.log('paginated scan', data)
+//     // Dataの構造
+//     // LastEvaluatedKeyを次のリクエストに使用する
+//     // {
+//     //   Items: [...],
+//     //   Count: 3,
+//     //   ScannedCount: 3,
+//     //   LastEvaluatedKey: { user_id: 'bar', timestamp: 101 }
+//     // }
+//   })
+//   .catch(error => {
+//     console.error('paginated scan error: ', error)
+//   })
+
+/* pagination with using async generator */
+async function* scanItems(client, params){
+  let startKey
+  do {
+    const response = await (client.scan({
+      ...params,
+      ExclusiveStartKey: startKey
+    }).promise())
+
+    const { Items, Count, ScannedCount, LastEvaluatedKey } = response
+    if (LastEvaluatedKey !== 'undefined') {
+      startKey = LastEvaluatedKey
+    }
+    yield { Items, Count, ScannedCount }
+  } while (startKey)
+}
+
+async function fetch() {
+  const params = {
+    TableName: 'user_posts',
+    Limit: 3
+  }
+  for await (const result of scanItems(documentClient, params)) {
+    console.log('Items: ', result.Items)
+  }
+}
+
+fetch().then(() => console.log('Done'))
