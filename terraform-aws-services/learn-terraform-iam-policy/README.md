@@ -14,4 +14,7 @@ This is a companion repository to the Terraform IAM policy creation tutorial on 
   - `aws_iam_user_policy_attachment` を作る
   - Role や、Group もそれぞれ、該当する policy attachment を作る
 
+### 備考
 
+- [templatefile()](https://www.terraform.io/docs/language/functions/templatefile.html) 関数を使用すると、 policy のテンプレート化ができる
+- [jsonencode()](https://www.terraform.io/docs/language/functions/jsonencode.html) 関数を使って、ヒアドキュメントのフォーマットの代替ができる
