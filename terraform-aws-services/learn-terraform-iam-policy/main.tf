@@ -50,3 +50,11 @@ resource "aws_iam_policy" "policy" {
   policy = data.aws_iam_policy_document.s3-all.json
 }
 
+resource "aws_iam_user_policy_attachment" "policy-attachment" {
+  user = aws_iam_user.new_user.name
+  policy_arn = aws_iam_policy.policy.arn
+}
+
+output "rendered_policy" {
+  value = data.aws_iam_policy_document.s3-all.json
+}
