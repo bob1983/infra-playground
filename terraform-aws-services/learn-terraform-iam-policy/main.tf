@@ -9,6 +9,7 @@ terraform {
 
 provider "aws" {
   region = var.region
+  profile = var.profile
 }
 
 resource "random_pet" "pet_name" {
