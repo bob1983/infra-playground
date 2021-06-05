@@ -1,7 +1,12 @@
+variable "profile" {
+  description = "The aws profile name"
+  type        = string
+}
+
 variable "region" {
   description = "The region Terraform deploys your instances"
   type        = string
-  default     = "us-west-2"
+  default     = "ap-northeast-1"
 }
 
 variable "vpc_cidr_block" {
