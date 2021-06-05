@@ -1,5 +1,6 @@
 provider "aws" {
-  region = var.region
+  region  = var.region
+  profile = var.profile
 }
 
 data "aws_availability_zones" "available" {}
@@ -61,7 +62,7 @@ resource "aws_db_parameter_group" "education" {
 resource "aws_db_instance" "education" {
   identifier             = "education"
   instance_class         = "db.t3.micro"
-  allocated_storage      = 5
+  allocated_storage      = 6
   engine                 = "postgres"
   engine_version         = "13.1"
   username               = "edu"
@@ -71,4 +72,5 @@ resource "aws_db_instance" "education" {
   parameter_group_name   = aws_db_parameter_group.education.name
   publicly_accessible    = true
   skip_final_snapshot    = true
+  apply_immediately      = true
 }
