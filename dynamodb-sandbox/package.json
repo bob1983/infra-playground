@@ -8,6 +8,6 @@
   "author": "bobStrange <bob.is.strange.1983@gmail.com> (https://github.com/bob1983)",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.660.0"
+    "aws-sdk": "^2.814.0"
   }
 }
